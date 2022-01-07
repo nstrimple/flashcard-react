@@ -13,12 +13,10 @@ function Flashcard() {
         })
     }
     return (
-        <div>
-            <ReactCardFlip isFlipped={side}>
-            <Card onClick={flipHandler}>{front}</Card>
-            <Card onClick={flipHandler}>{back}</Card>
-            </ReactCardFlip>
-        </div>
+        <ReactCardFlip isFlipped={side}>
+        <Card onClick={flipHandler}>{front}</Card>
+        <Card onClick={flipHandler}>{back}</Card>
+        </ReactCardFlip>
     )
 }
 
