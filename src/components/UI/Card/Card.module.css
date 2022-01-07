@@ -1,0 +1,20 @@
+.Card {
+  background-color: lightblue;
+  width: 600px;
+  height: 400px;
+  border-radius: 20px;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: 3rem;
+}
+
+.cardContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0;
+}
