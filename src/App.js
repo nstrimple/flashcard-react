@@ -1,13 +1,13 @@
-import react from "react";
-import Card from "./components/UI/Card/Card";
+import React from "react";
+import Flashcard from "./components/Flashcard/Flashcard";
 
 function App() {
   return (
     <>
-    <p>Create flashcard flip</p>
+    <p>Figure out the flip animation</p>
     <p>Add flashcard api</p>
     <h1>component testing</h1>
-    <Card>Test</Card>
+    <Flashcard />
     </>
   );
 }
