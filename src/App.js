@@ -1,5 +1,5 @@
 import React from "react";
-import Flashcard from "./components/Flashcard/Flashcard";
+import AllFlashCards from "./components/Flashcard/AllFlashCards";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
     <p>Figure out the flip animation</p>
     <p>Add flashcard api</p>
     <h1>component testing</h1>
-    <Flashcard />
+    <AllFlashCards />
     </>
   );
 }

@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from 'react'
+import Flashcard from './Flashcard';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
+import classes from './AllFlashCards.module.css';
 
-function AllFlashCards() {
+const AllFlashCards = () => {
     const [ isLoading, setIsLoading ] = useState(false);
     const [ error, setError ] = useState(null);
     const [ flashcards, setFlashcards ] = useState([])
+    const [ selected, setSelected ] = useState(null);
     const fetchCards = async () => {
         setError(null);
         setIsLoading(true);
@@ -34,9 +38,16 @@ function AllFlashCards() {
     useEffect(() => {
         fetchCards()
     }, [])
+
+    useEffect(() => {
+        setSelected(flashcards[0])
+    }, [])
+
     return (
-        <div>
-            
+        <div className={classes.CardContainer}>
+            <FaArrowAltCircleLeft className={classes.arrow}/>
+            <Flashcard front='{selected.eng}' back='{selected.port} '/>
+            <FaArrowAltCircleRight className={classes.arrow}/>
         </div>
     )
 }
