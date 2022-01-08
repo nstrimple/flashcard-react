@@ -5,8 +5,7 @@ import classes from './AllFlashCards.module.css';
 
 const AllFlashCards = () => {
     const [ flashcards, setFlashcards ] = useState([])
-    const [ selected, setSelected ] = useState(null);
-    const [shown, setShown] = useState(false)
+    const [cardVal, setCardVal] = useState(0)
 
     const fetchCards = useCallback(async () => {
         const response = await fetch('https://react-flashcards-70208-default-rtdb.firebaseio.com/flashcards.json')
@@ -26,36 +25,36 @@ const AllFlashCards = () => {
 
     useEffect(async () => {
         await fetchCards();
-        setSelected(flashcards[0])
     }, [])
 
-    let selVal = 0
     const nextHandler = () => {
         const maxVal = flashcards.length - 1
-        if (selVal === maxVal) {
-            selVal = 0
-        }
-        else {
-            selVal +=1
-        }
-        setSelected(flashcards[selVal])
+        setCardVal(prevVal => {
+            if (prevVal === maxVal){
+                return 0
+            }
+            else {
+                return prevVal+1
+            }
+        })
     }
 
     const prevHandler = () => {
         const maxVal = flashcards.length - 1
-        if (selVal === 0) {
-            selVal = maxVal
-        }
-        else {
-            selVal -= 1
-        }
-        setSelected(flashcards[selVal])
+        setCardVal(prevVal => {
+            if (prevVal === 0) {
+                return maxVal
+            }
+            else {
+                return prevVal - 1
+            }
+        })
     }
 
     return (
         <div className={classes.CardContainer}>
             <FaArrowAltCircleLeft className={classes.arrow} size={42} onClick={prevHandler}/>
-            {selected ? <Flashcard front={selected.english} back={selected.portuguese} /> : <p> No Flashcards yet</p>}
+            {flashcards.length > 0 ? <Flashcard front={flashcards[cardVal].english} back={flashcards[cardVal].portuguese} /> : <p> No Flashcards yet</p>}
             <FaArrowAltCircleRight className={classes.arrow} size={42} onClick={nextHandler}/>
         </div>
     )
