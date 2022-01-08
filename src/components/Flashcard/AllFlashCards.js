@@ -1,53 +1,62 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback } from 'react'
 import Flashcard from './Flashcard';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 import classes from './AllFlashCards.module.css';
 
 const AllFlashCards = () => {
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ error, setError ] = useState(null);
     const [ flashcards, setFlashcards ] = useState([])
     const [ selected, setSelected ] = useState(null);
-    const fetchCards = async () => {
-        setError(null);
-        setIsLoading(true);
-        try {
-            const response = await fetch('https://react-flashcards-70208-default-rtdb.firebaseio.com/flashcards.json')
-            if (!response.ok) {
-                throw new Error('Fuck')
-            }
-            const data = await response.json()
-            let loadedCards = []
-            for (const key in data) {
-                loadedCards.push(
-                    {
-                        id: key,
-                        eng: data[key].english,
-                        port: data[key].portuguese
-                    }
-                )
-            }
-            setFlashcards(loadedCards)
+    const [shown, setShown] = useState(false)
 
-        } catch (error) {
-            setError(error.message || 'Fuck')
+    const fetchCards = useCallback(async () => {
+        const response = await fetch('https://react-flashcards-70208-default-rtdb.firebaseio.com/flashcards.json')
+        const data = await response.json()
+        let loadedData = []
+        for (const key in data) {
+            loadedData.push(
+                {
+                    id: key,
+                    english: data[key].english,
+                    portuguese: data[key].portuguese
+                }
+            )
         }
-        setIsLoading(false)
-    }
-
-    useEffect(() => {
-        fetchCards()
+        setFlashcards(loadedData)
     }, [])
 
-    useEffect(() => {
+    useEffect(async () => {
+        await fetchCards();
         setSelected(flashcards[0])
     }, [])
 
+    let selVal = 0
+    const nextHandler = () => {
+        const maxVal = flashcards.length - 1
+        if (selVal === maxVal) {
+            selVal = 0
+        }
+        else {
+            selVal +=1
+        }
+        setSelected(flashcards[selVal])
+    }
+
+    const prevHandler = () => {
+        const maxVal = flashcards.length - 1
+        if (selVal === 0) {
+            selVal = maxVal
+        }
+        else {
+            selVal -= 1
+        }
+        setSelected(flashcards[selVal])
+    }
+
     return (
         <div className={classes.CardContainer}>
-            <FaArrowAltCircleLeft className={classes.arrow}/>
-            <Flashcard front='{selected.eng}' back='{selected.port} '/>
-            <FaArrowAltCircleRight className={classes.arrow}/>
+            <FaArrowAltCircleLeft className={classes.arrow} size={42} onClick={prevHandler}/>
+            {selected ? <Flashcard front={selected.english} back={selected.portuguese} /> : <p> No Flashcards yet</p>}
+            <FaArrowAltCircleRight className={classes.arrow} size={42} onClick={nextHandler}/>
         </div>
     )
 }

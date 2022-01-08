@@ -4,8 +4,7 @@ import AllFlashCards from "./components/Flashcard/AllFlashCards";
 function App() {
   return (
     <>
-    <p>Figure out the selected state</p>
-    <h1>component testing</h1>
+    <h1>FlashCard Page</h1>
     <AllFlashCards />
     </>
   );
