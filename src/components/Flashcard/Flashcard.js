@@ -4,9 +4,13 @@ import ReactCardFlip from 'react-card-flip';
 
 function Flashcard(props) {
     const [ side, setSide ] = useState(false);
+    const [ color, setColor] = useState(false);
     const flipHandler = () => {
         setSide((prevState) => {
             return !prevState
+        })
+        setColor(prevColor => {
+            return !prevColor
         })
     }
     return (
